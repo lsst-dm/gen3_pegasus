@@ -21,6 +21,7 @@ your own **conda** environment called **demo** and install missing packages.
    scl enable devtoolset-6 bash
    source /software/lsstsw/stack/loadLSST.bash
    conda create --name demo --clone lsst-scipipe
+   conda activate demo
    conda install networkx pydotplus pygraphviz
 
 Of course, you only need to do this once.
