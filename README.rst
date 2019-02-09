@@ -9,7 +9,7 @@ LSST stack by default.  These are:
 
 #. **networkx**
 #. **pygraphviz**
-#. **pydotplus**
+#. **pydotplus** / **pydot**
 
 You cannot install them in the default conda environment due to permission
 restrictions.  Probably the easiest way to circumvent these restrictions is to
@@ -22,7 +22,7 @@ your own **conda** environment called **demo** and install missing packages.
    source /software/lsstsw/stack/loadLSST.bash
    conda create --name demo --clone lsst-scipipe
    conda activate demo
-   conda install networkx pydotplus pygraphviz
+   conda install networkx pydotplus pygraphviz pydot
 
 If you need a support for Oracle database, you need to install two additional
 packages:
