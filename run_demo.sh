@@ -11,6 +11,7 @@ fi
 
 runnum=$1
 outdir=run${runnum}
+COLLECTION=col${runnum}
 
 echo ""
 echo "Cleaning up previous outputs and resetting repo"
@@ -39,13 +40,31 @@ fi
 
 echo ""
 echo "Creating QuantumGraph"
+python $DEMO_HSC_PIPELINETASK_DIR/bin/ingestSkyMap.py DATA $COLLECTION
+python $DEMO_HSC_PIPELINETASK_DIR/bin/ingestBrightObjectMask.py DATA $COLLECTION
 # just to ensure that submit side doesn't write to registry
 chmod 444 DATA/gen3.sqlite3
 
 # make QGraph
 if [ $2 -eq 2 ]; then
     set -x
-    pipetask -b DATA/butler.yaml -i shared/ci_hsc -o qgraph1 qgraph -t multiBand.DetectCoaddSourcesTask -t mergeDetections.MergeDetectionsTask:mdt -c mdt:priorityList="['i', 'r']" -t deblendCoaddSourcesPipeline.DeblendCoaddSourcesSingleTask -t multiBand.MeasureMergedCoaddSourcesTask -q ${outdir}/demo_qgraph.pickle --pipeline-dot ${outdir}/draw/pipetask_pipeline.dot --qgraph-dot ${outdir}/draw/pipetask_qgraph.dot
+    pipetask -d "Patch.patch = 69"  -b DATA/butler.yaml \
+        -p lsst.meas.base  -p lsst.ip.isr -p lsst.pipe.tasks  \
+        -i 'raw','calib',ref/ps1_pv3_3pi_20170110,$COLLECTION -o qgraph1 qgraph \
+        -t isrTask.IsrTask:isr -C isr:$DEMO_HSC_PIPELINETASK_DIR/config/isr.py \
+        -t characterizeImage.CharacterizeImageTask:cit -C cit:$DEMO_HSC_PIPELINETASK_DIR/config/charImage.py \
+        -t calibrate.CalibrateTask:ct -C ct:$DEMO_HSC_PIPELINETASK_DIR/config/calibrate.py  \
+        -t makeCoaddTempExp.MakeWarpTask:mwt -C mwt:$DEMO_HSC_PIPELINETASK_DIR/config/makeWarp.py \
+        -t assembleCoadd.CompareWarpAssembleCoaddTask:cwact -C cwact:$DEMO_HSC_PIPELINETASK_DIR/config/compareWarpAssembleCoadd.py \
+        -t multiBand.DetectCoaddSourcesTask \
+        -t mergeDetections.MergeDetectionsTask:mdt -C mdt:$DEMO_HSC_PIPELINETASK_DIR/config/mergeDetections.py \
+        -t deblendCoaddSourcesPipeline.DeblendCoaddSourcesSingleTask \
+        -t multiBand.MeasureMergedCoaddSourcesTask:mmcst -C mmcst:$DEMO_HSC_PIPELINETASK_DIR/config/measureMerged.py \
+        -t mergeMeasurements.MergeMeasurementsTask:mmt -C mmt:$DEMO_HSC_PIPELINETASK_DIR/config/mergeCoaddMeasurements.py \
+        -t forcedPhotCcd.ForcedPhotCcdTask:fpccdt -C fpccdt:$DEMO_HSC_PIPELINETASK_DIR/config/forcedPhotCcd.py \
+        -t forcedPhotCoadd.ForcedPhotCoaddTask:fpct -C fpct:$DEMO_HSC_PIPELINETASK_DIR/config/forcedPhotCoadd.py \
+        -q ${outdir}/demo_qgraph.pickle --pipeline-dot ${outdir}/draw/pipetask_pipeline.dot --qgraph-dot ${outdir}/draw/pipetask_qgraph.dot
+
     { set  +x ;} 2> /dev/null
 else
     set -x
