@@ -7,7 +7,7 @@ export PYTHONPATH="${wmshome}/lib64/python2.7/site-packages"
 
 # Set up LSST stack.
 lssthome="/software/lsstsw/stack"
-tag="w_2019_05"
+tag="w_2019_07"
 source ${lssthome}/loadLSST.bash
 conda activate demo
 setup lsst_distrib --tag ${tag} --verbose
