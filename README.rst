@@ -35,6 +35,14 @@ packages:
    conda install cx_oracle
    conda install -c anaconda oracle-instantclient
 
+.. note::
+
+   The Oracle instant client available through anaconda is rather dated
+   (11.2.0.4.0). If you need more recent version, you will probably need to
+   install it manually (see `this`__ page how to do it).
+
+   .. __: https://www.oracle.com/technetwork/topics/linuxx86-64soft-092277.html#ic_x64_inst
+
 Of course, you only need to do this once.
 
 Set up Pegasus
