@@ -24,6 +24,17 @@ your own **conda** environment called **demo** and install missing packages.
    conda activate demo
    conda install networkx pydotplus pygraphviz
 
+If you need a support for Oracle database, you need to install two additional
+packages:
+
+#. **oracle-instantclient**: Oracle client libraries,
+#. **cx_oracle**: Python module which enables accessing Oracle database
+
+.. code-block::
+
+   conda install cx_oracle
+   conda install -c anaconda oracle-instantclient
+
 Of course, you only need to do this once.
 
 Set up Pegasus
