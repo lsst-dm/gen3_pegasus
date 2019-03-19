@@ -38,6 +38,11 @@ else
     echo "Running tiny demo (three coadd steps)"
 fi
 
+
+echo ""
+echo "Do template validation"
+validateButlerConfiguration.py DATA --ignore raw,ref_cat
+
 echo ""
 echo "Creating QuantumGraph"
 python $DEMO_HSC_PIPELINETASK_DIR/bin/ingestSkyMap.py DATA $COLLECTION
