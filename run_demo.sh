@@ -25,6 +25,7 @@ chmod -R a+w DATA
 
 # override original repo path with test repo path
 cp butler.yaml DATA
+cp data_templates.yaml DATA
 
 mkdir ${outdir}
 mkdir ${outdir}/input
@@ -37,6 +38,11 @@ else
     echo ""
     echo "Running tiny demo (three coadd steps)"
 fi
+
+
+echo ""
+echo "Do template validation"
+validateButlerConfiguration.py DATA --ignore raw,ref_cat
 
 echo ""
 echo "Creating QuantumGraph"

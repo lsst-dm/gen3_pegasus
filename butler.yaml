@@ -3,9 +3,11 @@ datastore:
   records:
     table: PosixDatastoreRecords
   root: /home/mxk/demo/develop/DATA
+  templates: !include data_templates.yaml
 registry:
   cls: lsst.daf.butler.registries.sqliteRegistry.SqliteRegistry
   db: sqlite:////home/mxk/demo/develop/DATA/gen3.sqlite3
+  deferDatasetIdQueries: true
   skypix:
     cls: lsst.sphgeom.HtmPixelization
     level: 7
