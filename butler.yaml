@@ -2,11 +2,11 @@ datastore:
   cls: lsst.daf.butler.datastores.posixDatastore.PosixDatastore
   records:
     table: PosixDatastoreRecords
-  root: /home/mxk/demo/develop/DATA
+  root: <butlerRoot>
   templates: !include data_templates.yaml
 registry:
   cls: lsst.daf.butler.registries.sqliteRegistry.SqliteRegistry
-  db: sqlite:////home/mxk/demo/develop/DATA/gen3.sqlite3
+  db: sqlite:///<butlerRoot>/gen3.sqlite3
   deferDatasetIdQueries: true
   skypix:
     cls: lsst.sphgeom.HtmPixelization
