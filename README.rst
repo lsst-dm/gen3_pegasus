@@ -1,3 +1,11 @@
+NOTE: To be deprecated in S2019
+===============================
+
+This repo is being replaced by the new BPS codes at `ctrl_bps`__.
+No support is envisioned for the codes and scripts in this repo.
+
+   .. __: https://github.com/lsst-dm/ctrl_bps
+
 HOWTO: Running Gen3 Middleware using Pegasus
 ============================================
 
