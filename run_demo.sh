@@ -44,6 +44,13 @@ echo ""
 echo "Do template validation"
 validateButlerConfiguration.py DATA --ignore raw,ref_cat
 
+# workaround for adding dataset type postISRCCD to the registry
+pipetask -d "Visit.visit=903334" -d "Detector.detector=22" -j 1 -b DATA/butler.yaml \
+    -p lsst.meas.base -p lsst.ip.isr -p lsst.pipe.tasks \
+    -i raw,calib,ref/ps1_pv3_3pi_20170110,$COLLECTION  -o workaround1 run \
+    --register-dataset-types \
+    -t isrTask.IsrTask:isr -C isr:$OBS_SUBARU_DIR/config/hsc/isr.py
+
 echo ""
 echo "Creating QuantumGraph"
 python $DEMO_HSC_PIPELINETASK_DIR/bin/ingestSkyMap.py DATA $COLLECTION
