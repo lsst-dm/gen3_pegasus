@@ -45,7 +45,7 @@ echo "Do template validation"
 validateButlerConfiguration.py DATA --ignore raw,ref_cat
 
 # workaround for adding dataset type postISRCCD to the registry
-pipetask -d "Visit.visit=903334" -d "Detector.detector=22" -j 1 -b DATA/butler.yaml \
+pipetask -d "visit.visit=903334" -d "detector.detector=22" -j 1 -b DATA/butler.yaml \
     -p lsst.meas.base -p lsst.ip.isr -p lsst.pipe.tasks \
     -i raw,calib,ref/ps1_pv3_3pi_20170110,$COLLECTION  -o workaround1 run \
     --register-dataset-types \
@@ -61,7 +61,7 @@ chmod 444 DATA/gen3.sqlite3
 # make QGraph
 if [ $2 -eq 2 ]; then
     set -x
-    pipetask -d "Patch.patch = 69"  -b DATA/butler.yaml \
+    pipetask -d "patch.patch = 69"  -b DATA/butler.yaml \
         -p lsst.meas.base  -p lsst.ip.isr -p lsst.pipe.tasks  \
         -i 'raw','calib',ref/ps1_pv3_3pi_20170110,$COLLECTION -o qgraph1 qgraph \
         -t isrTask.IsrTask:isr -C isr:$DEMO_HSC_PIPELINETASK_DIR/config/isr.py \
