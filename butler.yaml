@@ -1,7 +1,7 @@
 datastore:
   cls: lsst.daf.butler.datastores.posixDatastore.PosixDatastore
   records:
-    table: PosixDatastoreRecords
+    table: posix_datastore_records
   root: <butlerRoot>
   templates: !include data_templates.yaml
 registry:
