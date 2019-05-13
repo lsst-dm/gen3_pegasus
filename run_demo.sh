@@ -26,6 +26,7 @@ chmod -R a+w DATA
 # override original repo path with test repo path
 cp butler.yaml DATA
 cp data_templates.yaml DATA
+cp datastore?.yaml DATA
 
 mkdir ${outdir}
 mkdir ${outdir}/input

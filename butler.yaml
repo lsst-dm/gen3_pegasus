@@ -1,9 +1,21 @@
 datastore:
-  cls: lsst.daf.butler.datastores.posixDatastore.PosixDatastore
+  cls: lsst.daf.butler.datastores.chainedDatastore.ChainedDatastore
+  datastore_constraints:
+    # One entry per datastore in datastores section
+    # Use empty `-` if no permission override required
+    - constraints:
+        reject:
+          - all
+    - constraints:
+        accept:
+          - all
   records:
     table: posix_datastore_records
   root: <butlerRoot>
   templates: !include data_templates.yaml
+  datastores:
+  - !include datastore1.yaml
+  - !include datastore2.yaml
 registry:
   cls: lsst.daf.butler.registries.sqliteRegistry.SqliteRegistry
   db: sqlite:///<butlerRoot>/gen3.sqlite3
